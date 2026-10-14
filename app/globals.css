@@ -84,7 +84,7 @@ button:focus-visible,a:focus-visible,summary:focus-visible,[tabindex]:focus-visi
 
 .eyebrow {
   display:block;
-  font-size:10px;
+  font-size:12px;
   font-weight:600;
   letter-spacing:1.6px;
   line-height:1.7
@@ -236,7 +236,7 @@ button:focus-visible,a:focus-visible,summary:focus-visible,[tabindex]:focus-visi
   display:flex;
   gap:9px;
   align-items:center;
-  font-size:9px;
+  font-size:12px;
   letter-spacing:1.15px
 }
 
@@ -287,7 +287,7 @@ h1 {
   gap:8px;
   align-items:center;
   margin-top:19px;
-  font-size:11px;
+  font-size:12px;
   color:var(--muted)
 }
 
@@ -336,7 +336,7 @@ h1 {
   left:0;
   right:0;
   text-align:center;
-  font-size:8px;
+  font-size:12px;
   letter-spacing:1.55px;
   font-weight:600;
   display:flex;
@@ -725,12 +725,12 @@ h1 {
 }
 
 .floating-card strong {
-  font-size:11px;
+  font-size:12px;
   font-weight:600
 }
 
 .floating-card small {
-  font-size:8px;
+  font-size:12px;
   color:var(--muted);
   margin-top:4px
 }
@@ -786,7 +786,7 @@ h1 {
   right:12px;
   text-align:center;
   color:#776d43;
-  font-size:8px;
+  font-size:12px;
   letter-spacing:.2px
 }
 
@@ -815,7 +815,7 @@ h1 {
   display:flex;
   align-items:center;
   gap:9px;
-  font-size:11px;
+  font-size:12px;
   font-weight:500;
   color:#64737c
 }
@@ -930,7 +930,7 @@ h2 {
 }
 
 .mini-tag {
-  font-size:7px;
+  font-size:12px;
   letter-spacing:1px;
   font-weight:500;
   color:#687780
@@ -945,7 +945,7 @@ h2 {
 }
 
 .count-card>p {
-  font-size:11px;
+  font-size:12px;
   color:var(--muted);
   line-height:1.7;
   min-height:56px
@@ -959,7 +959,7 @@ h2 {
 }
 
 .count-example>span:first-child {
-  font-size:9px;
+  font-size:12px;
   display:block
 }
 
@@ -982,7 +982,7 @@ h2 {
   display:flex;
   align-items:center;
   gap:5px;
-  font-size:8px;
+  font-size:12px;
   color:var(--muted);
   min-height:24px
 }
@@ -1001,7 +1001,7 @@ h2 {
 
 .comparison-note {
   grid-column:1/-1;
-  font-size:9px;
+  font-size:12px;
   color:var(--muted);
   text-align:center;
   line-height:1.7
@@ -1050,7 +1050,7 @@ h2 {
 .feature-footnote {
   text-align:center;
   color:var(--muted);
-  font-size:10px;
+  font-size:12px;
   line-height:1.7;
   margin-top:23px
 }
@@ -1130,7 +1130,7 @@ h2 {
   border-radius:50px;
   border:0;
   background:transparent;
-  font-size:11px;
+  font-size:12px;
   font-weight:500
 }
 
@@ -1188,7 +1188,7 @@ h2 {
 .app-preview .illustration-note {
   bottom:0;
   color:#68735c;
-  font-size:9px
+  font-size:12px
 }
 
 .app-panel-copy h3 {
@@ -1218,7 +1218,7 @@ h2 {
   display:flex;
   align-items:center;
   gap:9px;
-  font-size:11px;
+  font-size:12px;
   line-height:1.6
 }
 
@@ -1436,7 +1436,7 @@ h2 {
 
 .team-visual>.eyebrow {
   text-align:center;
-  font-size:8px
+  font-size:12px
 }
 
 .access-farm {
@@ -1459,7 +1459,7 @@ h2 {
 }
 
 .access-farm small {
-  font-size:9px;
+  font-size:12px;
   color:var(--muted);
   display:block;
   margin-top:5px
@@ -1520,20 +1520,20 @@ h2 {
 }
 
 .role-card strong {
-  font-size:11px;
+  font-size:12px;
   font-weight:600;
   margin-top:12px
 }
 
 .role-card small {
-  font-size:7px;
+  font-size:12px;
   color:var(--muted);
   margin-top:6px;
   line-height:1.6
 }
 
 .small-caption {
-  font-size:8px;
+  font-size:12px;
   color:var(--muted);
   text-align:center;
   margin-top:22px;
@@ -1547,45 +1547,12 @@ h2 {
   padding-top:25px
 }
 
-.faq-list details {
-  border-bottom:1px solid var(--line)
-}
-
-.faq-list summary {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
-  list-style:none;
-  cursor:pointer;
-  padding:23px 0;
-  font-size:13px;
-  font-weight:500;
-  line-height:1.5
-}
-
-.faq-list summary::-webkit-details-marker {
-  display:none
-}
-
 .faq-plus {
   font-size:22px;
   font-weight:400;
   line-height:1;
   flex-shrink:0;
   color:#6d7c84
-}
-
-.faq-list details[open] .faq-plus {
-  transform:rotate(45deg)
-}
-
-.faq-list details p {
-  padding-bottom:23px;
-  padding-right:25px;
-  font-size:12px;
-  line-height:1.9;
-  color:var(--muted)
 }
 
 .contact-section {
@@ -1609,7 +1576,7 @@ h2 {
 }
 
 .contact-section .eyebrow {
-  font-size:8px;
+  font-size:12px;
   letter-spacing:1.3px
 }
 
@@ -1660,7 +1627,7 @@ h2 {
 }
 
 .footer-top p {
-  font-size:11px;
+  font-size:12px;
   color:var(--muted);
   line-height:1.8;
   margin-top:17px
@@ -1669,7 +1636,7 @@ h2 {
 .footer-top nav {
   display:flex;
   gap:24px;
-  font-size:11px;
+  font-size:12px;
   padding-top:12px
 }
 
@@ -1677,7 +1644,7 @@ h2 {
   display:flex;
   align-items:center;
   gap:7px;
-  font-size:10px;
+  font-size:12px;
   padding-top:12px
 }
 
@@ -1692,7 +1659,7 @@ h2 {
   padding-block:22px;
   display:flex;
   justify-content:space-between;
-  font-size:9px;
+  font-size:12px;
   color:var(--muted);
   gap:20px
 }
@@ -1736,7 +1703,7 @@ h2 {
 }
 
 .demo-dialog>.eyebrow {
-  font-size:8px
+  font-size:12px
 }
 
 .demo-dialog h2 {
@@ -1758,7 +1725,7 @@ h2 {
   display:flex;
   align-items:center;
   gap:9px;
-  font-size:11px;
+  font-size:12px;
   color:#6c5810
 }
 
@@ -1806,10 +1773,10 @@ body:has(dialog[open]) {
     padding:11px
   }
   .floating-card strong {
-    font-size:10px
+    font-size:12px
   }
   .floating-card small {
-    font-size:7px
+    font-size:12px
   }
   .floating-record .float-check {
     display:none
@@ -1823,7 +1790,7 @@ body:has(dialog[open]) {
     font-size:12px
   }
   .hero-eyebrow {
-    font-size:8px;
+    font-size:12px;
     letter-spacing:.7px
   }
   .overview {
@@ -1846,7 +1813,7 @@ body:has(dialog[open]) {
     gap:14px
   }
   .product-strip>span {
-    font-size:9px;
+    font-size:12px;
     gap:6px
   }
   .product-strip>p {
@@ -1890,7 +1857,7 @@ body:has(dialog[open]) {
   }
   .header-actions .button {
     min-height:38px;
-    font-size:11px;
+    font-size:12px;
     padding-inline:15px;
     gap:10px
   }
@@ -1930,7 +1897,7 @@ body:has(dialog[open]) {
   }
   .hero-eyebrow {
     justify-content:center;
-    font-size:8px;
+    font-size:12px;
     letter-spacing:.9px
   }
   .hero h1 {
@@ -1954,7 +1921,7 @@ body:has(dialog[open]) {
   }
   .supporting {
     justify-content:center;
-    font-size:10px;
+    font-size:12px;
     margin-top:16px
   }
   .hero-visual {
@@ -1976,10 +1943,10 @@ body:has(dialog[open]) {
     top:136px
   }
   .floating-card strong {
-    font-size:11px
+    font-size:12px
   }
   .floating-card small {
-    font-size:8px
+    font-size:12px
   }
   .product-strip {
     display:grid;
@@ -2001,7 +1968,7 @@ body:has(dialog[open]) {
     margin-left:4px
   }
   .product-strip>span {
-    font-size:10px;
+    font-size:12px;
     gap:7px;
     justify-content:center
   }
@@ -2045,11 +2012,11 @@ body:has(dialog[open]) {
     margin-top:18px
   }
   .count-card>p {
-    font-size:10px;
+    font-size:12px;
     min-height:51px
   }
   .mini-tag {
-    font-size:6px;
+    font-size:12px;
     letter-spacing:.6px
   }
   .count-card .icon-tile {
@@ -2068,7 +2035,7 @@ body:has(dialog[open]) {
     font-size:34px
   }
   .waiting,.ledger-note {
-    font-size:7px
+    font-size:12px
   }
   .feature-grid {
     grid-template-columns:1fr 1fr;
@@ -2084,11 +2051,11 @@ body:has(dialog[open]) {
     margin:18px 0 9px
   }
   .feature-card p {
-    font-size:11px;
+    font-size:12px;
     line-height:1.8
   }
   .feature-footnote {
-    font-size:9px
+    font-size:12px
   }
   .heading-row {
     display:block;
@@ -2106,7 +2073,7 @@ body:has(dialog[open]) {
     line-height:1.5
   }
   .step p {
-    font-size:11px
+    font-size:12px
   }
   .step-number {
     padding-bottom:17px;
@@ -2166,13 +2133,6 @@ body:has(dialog[open]) {
   .faq-section>.section-intro p {
     margin:auto
   }
-  .faq-list summary {
-    font-size:12px;
-    padding:21px 0
-  }
-  .faq-list details p {
-    font-size:12px
-  }
   .contact-section {
     flex-direction:column;
     align-items:flex-start;
@@ -2187,7 +2147,7 @@ body:has(dialog[open]) {
     font-size:12px
   }
   .contact-section .eyebrow {
-    font-size:7px;
+    font-size:12px;
     letter-spacing:.9px
   }
   .contact-section .button {
@@ -2206,13 +2166,13 @@ body:has(dialog[open]) {
   }
   .footer-top nav {
     gap:20px;
-    font-size:10px
+    font-size:12px
   }
   .footer-bottom {
-    font-size:8px
+    font-size:12px
   }
   .footer-top .back-top {
-    font-size:9px
+    font-size:12px
   }
   .desktop-break {
     display:none
@@ -2231,7 +2191,7 @@ body:has(dialog[open]) {
     transform:rotate(-5deg) scale(.87)
   }
   .visual-label {
-    font-size:7px;
+    font-size:12px;
     letter-spacing:1px
   }
   .floating-card {
@@ -2252,21 +2212,21 @@ body:has(dialog[open]) {
     top:129px
   }
   .floating-card strong {
-    font-size:9px
+    font-size:12px
   }
   .floating-card small {
-    font-size:7px
+    font-size:12px
   }
   .hero-actions .button {
     padding-inline:16px;
-    font-size:11px;
+    font-size:12px;
     gap:9px
   }
   .hero-description {
     font-size:14px
   }
   .hero-eyebrow {
-    font-size:7px;
+    font-size:12px;
     letter-spacing:.5px
   }
   .count-card {
@@ -2285,23 +2245,23 @@ body:has(dialog[open]) {
     margin-top:14px
   }
   .count-example>span:first-child {
-    font-size:8px
+    font-size:12px
   }
   .count-example strong {
     font-size:30px
   }
   .count-example strong small {
-    font-size:10px
+    font-size:12px
   }
   .count-card>p {
     min-height:64px
   }
   .waiting,.ledger-note {
-    font-size:6px;
+    font-size:12px;
     gap:3px
   }
   .comparison-note {
-    font-size:8px
+    font-size:12px
   }
   .feature-grid {
     grid-template-columns:1fr
@@ -2345,10 +2305,7 @@ body:has(dialog[open]) {
     gap:6px
   }
   .role-card small {
-    font-size:6px
-  }
-  .faq-list summary {
-    font-size:11px
+    font-size:12px
   }
   .footer-top nav {
     gap:16px
@@ -2368,7 +2325,7 @@ body:has(dialog[open]) {
   }
   .header-actions .button {
     padding-inline:12px;
-    font-size:10px
+    font-size:12px
   }
   .header-actions {
     gap:7px
@@ -2390,4 +2347,148 @@ body:has(dialog[open]) {
 
 .app-panel[hidden] {
   display: none;
+}
+
+/* Website typography: readable labels and captions at every breakpoint. */
+.eyebrow,
+.hero-eyebrow,
+.team-visual > .eyebrow,
+.contact-section .eyebrow,
+.demo-dialog > .eyebrow {
+  font-size: 12px;
+  letter-spacing: 1.1px;
+  line-height: 1.7;
+}
+.hero-eyebrow { max-width: 440px; }
+.main-nav,
+.header-actions .button,
+.footer-top nav,
+.back-top,
+.text-link,
+.app-tabs button,
+.check-list li,
+.product-strip > span {
+  font-size: 14px;
+}
+.section-intro > p,
+.section-heading > p,
+.section-heading > div + p,
+.feature-card p,
+.step p,
+.app-panel-copy > p,
+.contact-section p,
+.footer-top p,
+.demo-dialog > p {
+  font-size: 15px;
+  line-height: 1.8;
+}
+.count-card > p { font-size: 14px; min-height: 76px; }
+.count-example > span:first-child { font-size: 13px; }
+.waiting, .ledger-note { font-size: 12px; line-height: 1.6; align-items: flex-start; }
+.waiting .small-dot, .ledger-note .icon { margin-top: 4px; }
+.mini-tag { font-size: 11px; line-height: 1.7; }
+.card-top { gap: 12px; flex-wrap: wrap; }
+.illustration-note,
+.app-preview .illustration-note,
+.comparison-note,
+.feature-footnote,
+.small-caption,
+.footer-bottom,
+.visual-label { font-size: 12px; line-height: 1.6; }
+.visual-label { padding-inline: 16px; letter-spacing: 1px; }
+.floating-card { max-width: calc(100% - 24px); }
+.floating-card strong { font-size: 13px; line-height: 1.5; }
+.floating-card small { font-size: 12px; line-height: 1.5; }
+.floating-card > div { min-width: 0; max-width: 185px; }
+.access-farm strong, .role-card strong { font-size: 14px; }
+.access-farm small, .role-card small { font-size: 12px; line-height: 1.6; }
+.product-strip { flex-wrap: wrap; }
+.product-strip > span { white-space: nowrap; }
+.demo-pending { font-size: 13px; line-height: 1.6; }
+
+/* Native dialog focus trapping stays active until the exit animation completes. */
+.demo-dialog { max-height: calc(100dvh - 40px); overflow-y: auto; }
+.demo-dialog::backdrop {
+  background: #23343b00;
+  transition: background-color 240ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.demo-dialog[data-visible="true"]::backdrop { background: #23343b66; }
+@starting-style {
+  .demo-dialog[data-visible="true"]::backdrop { background: #23343b00; }
+}
+.mobile-nav { display: none; }
+.faq-item { border-bottom: 1px solid var(--line); }
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 20px;
+  padding: 23px 0;
+  background: transparent;
+  border: 0;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+.faq-answer { overflow: hidden; }
+.faq-answer p { padding: 0 25px 23px 0; font-size: 14px; line-height: 1.9; color: var(--muted); }
+.faq-plus { display: inline-block; }
+@media (max-width: 1100px) {
+  .main-nav { gap: 18px; }
+  .product-strip { justify-content: center; gap: 20px 25px; }
+  .product-strip > p { border: 0; }
+}
+@media (max-width: 760px) {
+  .hero-eyebrow { margin-inline: auto; }
+  .mobile-nav {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 74px;
+    padding: 15px 24px 22px;
+    background: white;
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 12px 16px #34434b08;
+    transform-origin: top right;
+  }
+  .mobile-nav a { padding: 13px 0; font-size: 15px; }
+  .header-actions .button { font-size: 12px; }
+  .hero-actions .button { font-size: 13px; }
+  .supporting { font-size: 12px; }
+  .product-strip > span { font-size: 12px; white-space: normal; }
+  .count-card > p { font-size: 13px; min-height: 92px; }
+  .mini-tag { font-size: 10px; letter-spacing: .6px; }
+  .card-top { align-items: flex-start; flex-direction: column; gap: 5px; }
+  .count-example > span:first-child { font-size: 12px; }
+  .waiting, .ledger-note { font-size: 11px; }
+  .floating-card > div { max-width: 155px; }
+  .footer-top nav { flex-wrap: wrap; gap: 15px 20px; }
+  .team-visual > .eyebrow { letter-spacing: .6px; }
+}
+@media (max-width: 420px) {
+  .hero-actions .button { font-size: 12px; padding-inline: 14px; }
+  .visual-label { font-size: 11px; letter-spacing: .5px; }
+  .floating-card > div { max-width: 145px; }
+  .floating-card strong { font-size: 12px; }
+  .floating-card small { font-size: 11px; }
+  .floating-record { bottom: 95px; }
+  .floating-camera { top: 114px; }
+  .role-grid { grid-template-columns: 1fr; gap: 12px; }
+  .role-card { flex-direction: row; text-align: left; gap: 12px; flex-wrap: wrap; padding: 16px; }
+  .role-card strong, .role-card small { margin-top: 0; }
+  .role-card small { flex-basis: 100%; padding-left: 45px; }
+  .role-card:before { display: none; }
+  .faq-question { font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .demo-dialog::backdrop { transition-duration: 0ms; }
+}
+
+/* Keep reduced-motion and JavaScript-free visits readable immediately. */
+@media (prefers-reduced-motion: reduce) {
+  .motion-reveal { opacity: 1 !important; transform: none !important; }
 }
