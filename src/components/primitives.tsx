@@ -39,6 +39,22 @@ export function Logo({ tone = "orange", className }: { tone?: "orange" | "ink"; 
   );
 }
 
+/** Backer emblem (from dark_emblem.svg). The dark facet turns light on dark surfaces. */
+export function BackerEmblem({ className, dark }: { className?: string; dark?: boolean }) {
+  const base = dark ? "#E9EBEF" : "#212D34";
+  return (
+    <svg viewBox="0 0 888 1026" className={className} aria-hidden>
+      <path
+        d="M853.82 236.49L717.4 157.73V395L648.31 434.91L425 563.81L239.15 671.1V907.86L273.38 927.68L443.65 1026H443.73L887.46 769.79V255.89L853.82 236.49ZM717.4 671.32L648.31 711.23L425 840.16V760.44L648.31 631.51L717.4 591.6V671.32Z"
+        fill={base}
+      />
+      <path d="M614.51 98.32L425 207.74L239.15 315.04L170.06 354.9L0 453.11V256.47L170.06 158.26L239.15 118.41L425 11.11L444.23 0L614.51 98.32Z" fill="#00E48E" />
+      <path d="M648.31 158.53V355.16L425 484.09L239.15 591.39L170.06 631.25L0 729.46V532.82L170.06 434.61L239.15 394.75L425 287.46L648.31 158.53Z" fill="#00E48E" />
+      <path d="M170.06 710.96V868L34.0698 789.51L170.06 710.96Z" fill="#00E48E" />
+    </svg>
+  );
+}
+
 /* ------------------------------------------------------------------ */
 /* CTA – black block + orange arrow square                              */
 /* ------------------------------------------------------------------ */

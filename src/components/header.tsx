@@ -3,29 +3,18 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
-import { Cta, Logo } from "@/components/primitives";
+import { BackerEmblem, Cta, Logo } from "@/components/primitives";
 import { cn } from "@/lib/utils";
-import { NAV, TOTAL_SECTIONS } from "@/lib/content";
-
-
+import { NAV } from "@/lib/content";
 type Theme = "light" | "dark" | "orange";
 
 export function Header() {
-  const [index, setIndex] = useState(1);
   const [theme, setTheme] = useState<Theme>("light");
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const probe = 34;
     const update = () => {
-      const sections = document.querySelectorAll<HTMLElement>("[data-section]");
-      for (const s of sections) {
-        const r = s.getBoundingClientRect();
-        if (r.top <= probe && r.bottom > probe) {
-          setIndex(Number(s.dataset.section));
-          break;
-        }
-      }
       const themed = document.querySelectorAll<HTMLElement>("[data-theme]");
       let t: Theme = "light";
       for (const el of themed) {
@@ -60,8 +49,29 @@ export function Header() {
         <div className={cn("flex items-center border-r pr-6 lg:pr-[26px]", divider)}>
           <Logo tone={orange ? "ink" : "orange"} />
         </div>
-        <div className={cn("mono hidden items-center pl-6 tabular-nums sm:flex", dark ? "text-white/80" : "text-ink/80")}>
-          {String(index).padStart(2, "0")} / {TOTAL_SECTIONS}
+        <div className={cn("mono hidden items-center gap-2.5 pl-6 sm:flex", dark ? "text-white/70" : "text-ink/70")}>
+          <span className="text-[10px] tracking-[0.22em]">Backed by</span>
+          <a
+            href="https://focaldive.io"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Backed by FocalDive. Visit focaldive.io (opens in a new tab)"
+            className="group relative grid place-items-center rounded-sm p-1 outline-none transition-transform duration-300 hover:scale-110 focus-visible:ring-2 focus-visible:ring-orange"
+          >
+            <BackerEmblem dark={dark} className="h-[20px] w-auto" />
+            <span
+              role="tooltip"
+              className={cn(
+                "pointer-events-none absolute left-1/2 top-[calc(100%+12px)] z-10 -translate-x-1/2 translate-y-1 whitespace-nowrap px-2.5 py-1.5 font-sans text-[12.5px] normal-case tracking-normal opacity-0 shadow-lg transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100",
+                dark ? "bg-white text-ink" : "bg-ink text-white",
+              )}
+            >
+              Visit website <span className="font-medium">focaldive.io</span> ↗
+              <span
+                className={cn("absolute -top-1 left-1/2 size-2 -translate-x-1/2 rotate-45", dark ? "bg-white" : "bg-ink")}
+              />
+            </span>
+          </a>
         </div>
 
         <nav className="ml-auto hidden items-stretch lg:flex" aria-label="Primary">

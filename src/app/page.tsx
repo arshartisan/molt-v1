@@ -1,4 +1,5 @@
 import { Header } from "@/components/header";
+import { BookingPopup } from "@/components/cal-inline";
 import { Hero } from "@/components/sections/hero";
 import { Explore } from "@/components/sections/explore";
 import { Statement } from "@/components/sections/statement";
@@ -19,6 +20,7 @@ export default function Page() {
         Skip to content
       </a>
       <Header />
+      <BookingPopup />
       <main>
         <Hero />
         <Explore />

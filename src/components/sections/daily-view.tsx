@@ -115,7 +115,7 @@ const LIGHT = {
 
 export function DailyView() {
   const [view, setView] = useState<View>("overview");
-  const [dark, setDark] = useState(true);
+  const [dark, setDark] = useState(false);
   const [cams, setCams] = useState(CAMS);
   const [rounds, setRounds] = useState(ROUNDS);
   const [scan, setScan] = useState<number | null>(null);
