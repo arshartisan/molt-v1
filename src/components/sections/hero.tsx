@@ -135,7 +135,11 @@ export function Hero() {
     if (!window.matchMedia("(min-width: 1024px)").matches) return;
     let url: string | null = null;
     let cancelled = false;
-    fetch("/video/hero-dive.mp4")
+    // WebM (VP9) where supported, H.264 MP4 for older Safari
+    const film = document.createElement("video").canPlayType('video/webm; codecs="vp9"')
+      ? "/video/hero-dive.webm"
+      : "/video/hero-dive.mp4";
+    fetch(film)
       .then((r) => r.blob())
       .then((b) => {
         if (cancelled || !video.current) return;
@@ -143,7 +147,7 @@ export function Hero() {
         video.current.src = url;
       })
       .catch(() => {
-        if (video.current) video.current.src = "/video/hero-dive.mp4";
+        if (video.current) video.current.src = film;
       });
 
     let raf = 0;
@@ -353,7 +357,6 @@ export function Hero() {
           {/* phones: the film as a muted loop */}
           <div className="relative -mx-4 mt-10 aspect-video overflow-hidden sm:-mx-6 lg:hidden">
             <video
-              src="/video/hero-dive-720.mp4"
               poster="/video/hero-first.webp"
               autoPlay
               muted
@@ -362,7 +365,10 @@ export function Hero() {
               preload="metadata"
               aria-label="Film: the farm, the roof opening at area A2 and the camera view inside"
               className="h-full w-full object-cover"
-            />
+            >
+              <source src="/video/hero-dive-720.webm" type='video/webm; codecs="vp9"' />
+              <source src="/video/hero-dive-720.mp4" type="video/mp4" />
+            </video>
           </div>
         </motion.div>
 

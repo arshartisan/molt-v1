@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValueEvent, useScroll, useTransform } from "motion/react";
-import { Phone, PHONE_W } from "@/components/phone";
+import { Phone, PHONE_H, PHONE_W } from "@/components/phone";
 import { APP_CALLOUTS } from "@/lib/content";
 import { cn } from "@/lib/utils";
 
@@ -14,6 +14,20 @@ export function Explore() {
   const [finale, setFinale] = useState(false);
   const [onHome, setOnHome] = useState(true);
 
+  /* Fit the phone to the height left under the intro, so short laptop screens see all of it. */
+  const stage = useRef<HTMLDivElement>(null);
+  const [fit, setFit] = useState(0.86);
+  useEffect(() => {
+    const el = stage.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => {
+      const free = el.clientHeight - 64; // top gap + the phone's scroll drift
+      setFit(Math.max(0.5, Math.min(0.86, free / PHONE_H)));
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   useMotionValueEvent(scrollYProgress, "change", (p) => {
     setShown(Math.min(APP_CALLOUTS.length, Math.floor(p * 10)));
     setFinale(p > 0.8);
@@ -24,20 +38,20 @@ export function Explore() {
 
   return (
     <section ref={ref} id="app" data-section="2" data-theme="dark" className="relative bg-ink text-white md:h-[330vh]">
-      <div className="top-0 flex flex-col overflow-hidden pt-[84px] md:sticky md:h-screen md:pt-[96px]">
+      <div className="top-0 flex flex-col overflow-hidden pt-[84px] md:sticky md:h-screen md:pt-[96px] [@media(min-width:768px)_and_(max-height:820px)]:pt-[80px]">
         <div className="wrap relative z-10">
           <p className="mono text-white/70">02 / The big picture. In your pocket.</p>
-          <h2 className="display-lg mt-3">Explore the app.</h2>
-          <p className="lede mt-3 max-w-[36ch] text-white/60">
+          <h2 className="display-lg mt-3 [@media(min-width:768px)_and_(max-height:820px)]:text-[clamp(2.6rem,5vw,4.2rem)]">Explore the app.</h2>
+          <p className="lede mt-3 max-w-[36ch] text-white/60 [@media(min-width:768px)_and_(max-height:820px)]:mt-2 [@media(min-width:768px)_and_(max-height:820px)]:text-[16px]">
             Built around your farms, barns and areas. Every part of it, laid out in one place.
           </p>
         </div>
 
         {/* desktop: phone + callouts */}
-        <div className="relative hidden flex-1 md:block">
+        <div ref={stage} className="relative hidden flex-1 md:block">
           <motion.div
-            className="absolute left-1/2 top-[3%] origin-bottom"
-            style={{ x: "-50%", y: phoneY, rotate: phoneRotate, scale: 0.86 }}
+            className="absolute left-1/2 top-3"
+            style={{ x: "-50%", y: phoneY, rotate: phoneRotate, scale: fit, originY: 0 }}
           >
             <div className="relative">
               <Phone onNavigate={setOnHome} />
