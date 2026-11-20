@@ -62,7 +62,7 @@ export function Phone({
   return (
     <div
       className={cn(
-        "relative select-none overflow-hidden rounded-[44px] border-[7px] border-[#1a1c21] bg-[#f6f7f9] text-ink shadow-[0_40px_80px_-30px_rgba(0,0,0,.55)]",
+        "relative touch-manipulation select-none overflow-hidden rounded-[44px] border-[7px] border-[#1a1c21] bg-[#f6f7f9] text-ink shadow-[0_40px_80px_-30px_rgba(0,0,0,.55)]",
         className,
       )}
       style={{ width: PHONE_W, height: PHONE_H }}

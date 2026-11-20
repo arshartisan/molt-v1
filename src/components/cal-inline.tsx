@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 
 /* Minimal typing for the Cal.com embed queue. */
 type CalApi = ((...args: unknown[]) => void) & {
@@ -53,69 +53,6 @@ function loadCal() {
       };
   })(window, EMBED_SRC, "init");
   /* eslint-enable prefer-rest-params, @typescript-eslint/no-explicit-any */
-}
-
-/**
- * Inline Cal.com scheduler. The embed script is only fetched when the block
- * comes near the viewport, so it never slows down the first paint.
- */
-export function CalInline({
-  calLink,
-  namespace,
-  brand = "#0B0C0F",
-  className,
-}: {
-  calLink: string;
-  namespace: string;
-  brand?: string;
-  className?: string;
-}) {
-  const box = useRef<HTMLDivElement>(null);
-  const [started, setStarted] = useState(false);
-  const id = `cal-inline-${namespace}`;
-
-  useEffect(() => {
-    const el = box.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          setStarted(true);
-          io.disconnect();
-        }
-      },
-      { rootMargin: "800px 0px" },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!started) return;
-    loadCal();
-    const Cal = window.Cal!;
-    Cal("init", namespace, { origin: "https://app.cal.com" });
-    Cal.ns[namespace]("inline", {
-      elementOrSelector: `#${id}`,
-      calLink,
-      config: { layout: "month_view", theme: "light" },
-    });
-    Cal.ns[namespace]("ui", {
-      theme: "light",
-      hideEventTypeDetails: false,
-      layout: "month_view",
-      cssVarsPerTheme: { light: { "cal-brand": brand } },
-    });
-  }, [started, namespace, calLink, id, brand]);
-
-  return (
-    <div ref={box} className={className}>
-      <div id={id} className="h-full w-full overflow-auto" />
-      {!started && (
-        <div className="grid h-full min-h-[420px] place-items-center text-[14px] text-ink/60">Loading calendar…</div>
-      )}
-    </div>
-  );
 }
 
 /* ------------------------------------------------------------------ */

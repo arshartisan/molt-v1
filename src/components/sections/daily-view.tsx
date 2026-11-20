@@ -240,7 +240,7 @@ export function DailyView() {
                 }}
               />
 
-              <main className="relative flex min-h-[620px] min-w-0 flex-col overflow-hidden border-(--cl) bg-(--cp) lg:m-2 lg:ml-0 lg:min-h-0 lg:rounded-xl lg:border">
+              <main className="relative flex min-h-[620px] min-w-0 flex-col overflow-hidden border-(--cl) bg-(--cp) lg:m-2 lg:ml-0 lg:min-h-0 lg:border">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={view}
@@ -248,7 +248,7 @@ export function DailyView() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.2 }}
-                    className="flex min-h-0 flex-1 flex-col"
+                    className="flex min-h-0 flex-1 flex-col rounded-lg"
                   >
                     {view === "overview" && <OverviewView {...ctx} />}
                     {view === "snapshots" && <SnapshotsView {...ctx} onRun={runRound} />}
@@ -364,7 +364,7 @@ function Sidebar({
       <div className="border-b border-(--cl) px-3 py-3 lg:hidden">
         <Brand />
       </div>
-      <div className="flex gap-1 overflow-x-auto border-b border-(--cl) px-2 py-2 lg:hidden">
+      <div className="no-scrollbar flex gap-1 overflow-x-auto border-b border-(--cl) px-2 py-2 lg:hidden">
         {all.map(({ id, label, Icon }) => (
           <button
             key={id}
@@ -391,7 +391,7 @@ function Sidebar({
           <kbd className="whitespace-nowrap rounded border border-(--cl) bg-(--ch) px-1.5 text-[11px]">Ctrl K</kbd>
         </label>
 
-        <nav className="mt-4 min-h-0 flex-1 overflow-y-auto">
+        <nav className="mt-4 no-scrollbar min-h-0 flex-1 overflow-y-auto">
           {NAV.map((g, gi) => (
             <div key={gi} className={cn(g.group && "mt-5")}>
               {g.group && <p className="mb-1.5 px-2.5 text-[11.5px] font-medium uppercase tracking-[0.08em] text-(--cm)">{g.group}</p>}
@@ -473,7 +473,7 @@ function Top({ title, sub, children, tabs }: { title: string; sub?: React.ReactN
 }
 
 function Body({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <div className={cn("min-h-0 flex-1 overflow-y-auto p-4 md:p-6", className)}>{children}</div>;
+  return <div className={cn("min-h-0 no-scrollbar flex-1 overflow-y-auto p-4 md:p-6", className)}>{children}</div>;
 }
 
 function Card({
@@ -926,7 +926,7 @@ function SnapshotModal({ id, latest, counting, setOpen, onClose }: Ctx & { id: s
 
   return (
     <motion.div
-      className="absolute inset-0 z-20 grid place-items-center overflow-y-auto bg-black/70 p-3 backdrop-blur-[2px] md:p-8"
+      className="absolute inset-0 z-20 grid place-items-center overflow-y-auto no-scrollbar bg-black/70 p-3 backdrop-blur-[2px] md:p-8"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

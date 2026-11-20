@@ -48,7 +48,7 @@ export function Statement() {
             <FadeUp
               key={s.n}
               delay={i * 0.08}
-              className="flex min-h-[200px] flex-col justify-between border-b border-ink/12 py-4 pr-4 md:min-h-[240px] lg:border-b-0 lg:border-r lg:px-4 lg:first:pl-0 lg:last:border-r-0"
+              className="flex min-h-[150px] flex-col justify-between border-b border-ink/12 py-4 pr-4 md:min-h-[240px] lg:border-b-0 lg:border-r lg:px-4 lg:first:pl-0 lg:last:border-r-0"
             >
               <div className="flex items-start justify-between">
                 <span className="mono text-ink/50">{s.n}</span>
@@ -63,8 +63,8 @@ export function Statement() {
                 )}
               </div>
               <div>
-                <div className="text-[48px] font-medium leading-none tracking-[-0.05em] md:text-[64px]">{s.value}</div>
-                <div className="mt-2 text-[14px] text-slate">{s.label}</div>
+                <div className="text-[32px] font-medium leading-none tracking-[-0.05em] sm:text-[44px] md:text-[64px]">{s.value}</div>
+                <div className="mt-2 text-[13px] text-slate md:text-[14px]">{s.label}</div>
               </div>
             </FadeUp>
           ))}

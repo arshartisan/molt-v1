@@ -14,17 +14,46 @@ export function Explore() {
   const [finale, setFinale] = useState(false);
   const [onHome, setOnHome] = useState(true);
 
-  /* Fit the phone to the height left under the intro, so short laptop screens see all of it. */
+  /* Size the phone to the screen. When the intro leaves room beside it, the phone
+     uses the full height under the header; otherwise it fits under the intro. */
+  const pin = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLDivElement>(null);
+  const intro = useRef<HTMLDivElement>(null);
   const [fit, setFit] = useState(0.86);
+  const [lift, setLift] = useState(0);
+  const [mobileFit, setMobileFit] = useState(1);
   useEffect(() => {
     const el = stage.current;
-    if (!el) return;
-    const ro = new ResizeObserver(() => {
-      const free = el.clientHeight - 64; // top gap + the phone's scroll drift
-      setFit(Math.max(0.5, Math.min(0.86, free / PHONE_H)));
-    });
+    const box = pin.current;
+    if (!el || !box) return;
+    const measure = () => {
+      const W = box.clientWidth;
+      setMobileFit(Math.min(1.12, (W - 32) / PHONE_W));
+      if (!el.clientHeight) return; // phones use the stacked layout
+      const MAX = 1.12;
+      const drift = 40 + 24; // the phone's scroll drift + bottom gap
+      // full-height option: phone top just under the header
+      const top = 68 + 16;
+      const tall = Math.min(MAX, (box.clientHeight - top - drift) / PHONE_H);
+      const textRight = Math.max(
+        0,
+        ...Array.from(intro.current?.children ?? []).map((c) => {
+          const r = document.createRange();
+          r.selectNodeContents(c);
+          return r.getBoundingClientRect().right - box.getBoundingClientRect().left;
+        }),
+      );
+      if (W / 2 - (PHONE_W * tall) / 2 > textRight + 40) {
+        setFit(tall);
+        setLift(top - el.offsetTop);
+      } else {
+        setFit(Math.max(0.5, Math.min(MAX, (el.clientHeight - drift) / PHONE_H)));
+        setLift(0);
+      }
+    };
+    const ro = new ResizeObserver(measure);
     ro.observe(el);
+    ro.observe(box);
     return () => ro.disconnect();
   }, []);
 
@@ -35,23 +64,31 @@ export function Explore() {
 
   const phoneY = useTransform(scrollYProgress, [0, 1], [40, -20]);
   const phoneRotate = useTransform(scrollYProgress, [0, 0.75, 1], [-8, 0, 0]);
+  /* With the phone lifted beside the intro, the left callouts share its space:
+     clear the intro before the first callout draws in (callout 01 shows at 0.1). */
+  const introOpacity = useTransform(scrollYProgress, [0.03, 0.08], [1, 0]);
+  const introY = useTransform(scrollYProgress, [0.03, 0.08], [0, -24]);
 
   return (
     <section ref={ref} id="app" data-section="2" data-theme="dark" className="relative bg-ink text-white md:h-[330vh]">
-      <div className="top-0 flex flex-col overflow-hidden pt-[84px] md:sticky md:h-screen md:pt-[96px] [@media(min-width:768px)_and_(max-height:820px)]:pt-[80px]">
-        <div className="wrap relative z-10">
+      <div ref={pin} className="top-0 flex flex-col overflow-hidden pt-[84px] md:sticky md:h-screen md:pt-[96px] [@media(min-width:768px)_and_(max-height:820px)]:pt-[80px]">
+        <motion.div
+          ref={intro}
+          className="wrap relative z-10"
+          style={lift ? { opacity: introOpacity, y: introY } : undefined}
+        >
           <p className="mono text-white/70">02 / The big picture. In your pocket.</p>
           <h2 className="display-lg mt-3 [@media(min-width:768px)_and_(max-height:820px)]:text-[clamp(2.6rem,5vw,4.2rem)]">Explore the app.</h2>
           <p className="lede mt-3 max-w-[36ch] text-white/60 [@media(min-width:768px)_and_(max-height:820px)]:mt-2 [@media(min-width:768px)_and_(max-height:820px)]:text-[16px]">
             Built around your farms, barns and areas. Every part of it, laid out in one place.
           </p>
-        </div>
+        </motion.div>
 
         {/* desktop: phone + callouts */}
         <div ref={stage} className="relative hidden flex-1 md:block">
           <motion.div
-            className="absolute left-1/2 top-3"
-            style={{ x: "-50%", y: phoneY, rotate: phoneRotate, scale: fit, originY: 0 }}
+            className="absolute left-1/2"
+            style={{ top: 12 + lift, x: "-50%", y: phoneY, rotate: phoneRotate, scale: fit, originY: 0 }}
           >
             <div className="relative">
               <Phone onNavigate={setOnHome} />
@@ -62,7 +99,7 @@ export function Explore() {
           </motion.div>
 
           <motion.p
-            className="display-lg absolute bottom-[8%] left-0 right-0 z-10"
+            className="display-lg pointer-events-none absolute bottom-[8%] left-0 right-0 z-10"
             initial={false}
             animate={{ opacity: finale ? 1 : 0, y: finale ? 0 : 30 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
@@ -77,8 +114,11 @@ export function Explore() {
 
         {/* mobile: stacked */}
         <div className="wrap pb-20 pt-10 md:hidden">
-          <div className="flex justify-center">
-            <Phone className="scale-[0.92]" />
+          {/* phone scaled to the screen width; the outer box reserves the scaled height */}
+          <div className="flex justify-center" style={{ height: PHONE_H * mobileFit }}>
+            <div style={{ transform: `scale(${mobileFit})`, transformOrigin: "top center" }}>
+              <Phone />
+            </div>
           </div>
           <ol className="mt-8 divide-y divide-white/12 border-y border-white/12">
             {APP_CALLOUTS.map((c) => (

@@ -25,8 +25,8 @@ const A2_COUNT = 196;
 const VIDEO = [0.06, 0.86] as const; // film plays start → end over this range
 
 /**
- * Hero (desktop): the film is the full-screen background, scrubbed by scroll - orbit, roof opens at A2, dive inside, detections.
- * Phones get the same film as a short muted loop under the headline.
+ * Hero: the film is the full-screen background, scrubbed by scroll - orbit, roof opens at A2, dive inside, detections.
+ * Same experience on every screen; phones open with the farm framed under the headline instead of beside it.
  */
 export function Hero() {
   const [tab, setTab] = useState(0);
@@ -42,6 +42,9 @@ export function Hero() {
   const stage = useRef<HTMLDivElement>(null);
   const video = useRef<HTMLVideoElement>(null);
   const headline = useRef<HTMLDivElement>(null);
+  const copy = useRef<HTMLDivElement>(null);
+  const strip = useRef<HTMLDivElement>(null);
+  const box = useRef<HTMLDivElement>(null);
   const washEl = useRef<HTMLDivElement>(null);
   const { scrollYProgress: p } = useScroll({
     target: section,
@@ -70,18 +73,50 @@ export function Hero() {
     const W = st.clientWidth;
     const H = st.clientHeight;
     const k = Math.max(W / 1920, H / 1080); // object-cover factor
-    const pad = Math.max(40, (W - 1440) / 2 + 40); // matches .wrap
-    const textRight = headline.current
-      ? headline.current.getBoundingClientRect().right -
-        st.getBoundingClientRect().left
-      : W * 0.4;
-    const left = Math.min(textRight + 32, W * 0.5);
-    const right = W - pad * 0.5;
-    if (washEl.current) {
-      washEl.current.style.background = `linear-gradient(90deg, #f1f2f5 0px, #f1f2f5 ${Math.max(0, textRight - 80)}px, rgba(241,242,245,.8) ${textRight}px, rgba(241,242,245,.5) ${left + 60}px, rgba(241,242,245,.28) ${left + (right - left) * 0.45}px, rgba(241,242,245,.18) ${right}px)`;
+    // Size the film box to the full 16:9 frame (cover, centred) so no part of the
+    // farm is cropped by the box itself when it is scaled down on tall screens.
+    if (box.current) {
+      const bw = 1920 * k;
+      const bh = 1080 * k;
+      Object.assign(box.current.style, {
+        width: `${bw}px`,
+        height: `${bh}px`,
+        left: `${(W - bw) / 2}px`,
+        top: `${(H - bh) / 2}px`,
+      });
     }
-    const top = 68 + 24;
-    const bottom = H - 96;
+    let left: number, right: number, top: number, bottom: number;
+    if (W >= 1024) {
+      const pad = Math.max(40, (W - 1440) / 2 + 40); // matches .wrap
+      const textRight = headline.current
+        ? headline.current.getBoundingClientRect().right -
+          st.getBoundingClientRect().left
+        : W * 0.4;
+      left = Math.min(textRight + 32, W * 0.5);
+      right = W - pad * 0.5;
+      top = 68 + 24;
+      bottom = H - 96;
+      if (washEl.current) {
+        washEl.current.style.background = `linear-gradient(90deg, #f1f2f5 0px, #f1f2f5 ${Math.max(0, textRight - 80)}px, rgba(241,242,245,.8) ${textRight}px, rgba(241,242,245,.5) ${left + 60}px, rgba(241,242,245,.28) ${left + (right - left) * 0.45}px, rgba(241,242,245,.18) ${right}px)`;
+      }
+    } else {
+      // phones and tablets: the farm sits in the band between the copy and the tab strip
+      // layout offsets, so the copy's scroll fade and reveal transforms don't skew the read
+      const topIn = (el: HTMLElement | null) => {
+        let y = 0;
+        for (let n = el; n && n !== st; n = n.offsetParent as HTMLElement | null) y += n.offsetTop;
+        return y;
+      };
+      const copyBottom = copy.current ? topIn(copy.current) + copy.current.offsetHeight : H * 0.55;
+      const stripTop = strip.current ? topIn(strip.current) : H - 90;
+      left = 12;
+      right = W - 12;
+      top = copyBottom + 12;
+      bottom = Math.max(top + 80, stripTop - 8);
+      if (washEl.current) {
+        washEl.current.style.background = `linear-gradient(180deg, #f1f2f5 0px, #f1f2f5 ${Math.max(0, copyBottom - 24)}px, rgba(241,242,245,.4) ${copyBottom + 36}px, rgba(241,242,245,.15) ${(copyBottom + stripTop) / 2}px, rgba(241,242,245,.4) ${stripTop - 30}px, #f1f2f5 ${stripTop + 12}px)`;
+      }
+    }
     const s = Math.min(
       1,
       (right - left) / (k * FARM.w),
@@ -119,26 +154,17 @@ export function Hero() {
   const [count, setCount] = useState(0);
   const [inside, setInside] = useState(false);
   const [ready, setReady] = useState(false);
-  // Scroll-driven fades only run on desktop, where the hero is pinned. On phones the
-  // hero can fit the screen, which would put scroll progress at 1 and hide the copy.
-  const [desk, setDesk] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1024px)");
-    const on = () => setDesk(mq.matches);
-    on();
-    mq.addEventListener("change", on);
-    return () => mq.removeEventListener("change", on);
-  }, []);
 
-  /* Desktop: load the film as a blob so every frame is seekable, then chase the scroll. */
+  /* Load the film as a blob so every frame is seekable, then chase the scroll.
+     Phones and tablets get the lighter 720p cut. */
   useEffect(() => {
-    if (!window.matchMedia("(min-width: 1024px)").matches) return;
     let url: string | null = null;
     let cancelled = false;
-    // WebM (VP9) where supported, H.264 MP4 for older Safari
-    const film = document.createElement("video").canPlayType('video/webm; codecs="vp9"')
-      ? "/video/hero-dive.webm"
-      : "/video/hero-dive.mp4";
+    const size = window.matchMedia("(min-width: 1024px)").matches ? "" : "-720";
+    // WebM (VP9) where supported; H.264 MP4 for Safari, which seeks WebM poorly
+    const safari = /^((?!chrome|chromium|android|crios|fxios).)*safari/i.test(navigator.userAgent);
+    const webm = !safari && document.createElement("video").canPlayType('video/webm; codecs="vp9"');
+    const film = `/video/hero-dive${size}.${webm ? "webm" : "mp4"}`;
     fetch(film)
       .then((r) => r.blob())
       .then((b) => {
@@ -186,18 +212,19 @@ export function Hero() {
       id="top"
       data-section="1"
       data-theme="light"
-      className="relative bg-paper lg:h-[420vh]"
+      className="relative h-[360vh] bg-paper lg:h-[420vh]"
     >
       <div
         ref={stage}
-        className="relative flex min-h-[100svh] flex-col overflow-hidden pt-[60px] md:pt-[68px] lg:sticky lg:top-0 lg:h-screen"
+        className="sticky top-0 flex h-dvh flex-col overflow-hidden pt-[60px] md:pt-[68px] lg:h-screen"
       >
-        {/* ---------------- film (desktop) ---------------- */}
+        {/* ---------------- film ---------------- */}
         <div
           data-theme={inside ? "dark" : undefined}
-          className="absolute inset-0 z-0 hidden overflow-hidden bg-[#c7cfd1] lg:block"
+          className="absolute inset-0 z-0 overflow-hidden bg-[#c7cfd1]"
         >
           <motion.div
+            ref={box}
             className="absolute inset-0"
             style={{ x: filmX, y: filmY, scale: filmScale }}
           >
@@ -216,6 +243,11 @@ export function Hero() {
               playsInline
               preload="auto"
               onLoadedData={() => setReady(true)}
+              onLoadedMetadata={(e) => {
+                // iOS only decodes frames after a play; prime it so scroll seeking shows frames
+                const v = e.currentTarget;
+                if (v.readyState < 2) v.play().then(() => v.pause()).catch(() => {});
+              }}
               aria-label="Film: the farm turns, the roof of Barn 01 opens at area A2 and the camera view inside detects each bird"
               className="absolute inset-0 h-full w-full object-cover"
             />
@@ -267,23 +299,23 @@ export function Hero() {
             <div className="wrap h-full">
               <div className="relative h-full">
                 <motion.div
-                  className="absolute right-0 top-[96px] w-[290px] bg-black/70 p-5 text-white backdrop-blur-sm"
+                  className="absolute inset-x-0 top-[132px] bg-black/70 p-4 text-white backdrop-blur-sm lg:left-auto lg:right-0 lg:top-[96px] lg:w-[290px] lg:p-5"
                   style={{ opacity: panel, x: panelX }}
                 >
                   <p className="mono text-white/60">Camera count · A2</p>
-                  <p className="mt-2 text-[64px] font-medium leading-none tracking-[-0.05em] tabular-nums">
+                  <p className="mt-2 text-[44px] font-medium leading-none tracking-[-0.05em] tabular-nums lg:text-[64px]">
                     {count}
                   </p>
                   <p className="mt-1 text-[14px] text-white/70">
                     birds counted in area A2
                   </p>
-                  <div className="mt-4 h-[3px] bg-white/15">
+                  <div className="mt-3 h-[3px] bg-white/15 lg:mt-4">
                     <div
                       className="h-full bg-[#FFD60A] transition-[width] duration-200"
                       style={{ width: `${(count / A2_COUNT) * 100}%` }}
                     />
                   </div>
-                  <dl className="mt-4 grid grid-cols-2 gap-y-2 text-[13px]">
+                  <dl className="mt-3 grid grid-cols-2 gap-y-1.5 text-[13px] lg:mt-4 lg:gap-y-2">
                     <dt className="text-white/50">Recorded flock</dt>
                     <dd className="text-right tabular-nums">200</dd>
                     <dt className="text-white/50">Difference</dt>
@@ -306,7 +338,7 @@ export function Hero() {
             style={{ opacity: caption }}
           />
           <motion.div
-            className="pointer-events-none absolute bottom-16 left-0 right-0"
+            className="pointer-events-none absolute bottom-10 left-0 right-0 lg:bottom-16"
             style={{ opacity: caption, y: captionY }}
           >
             <div className="wrap">
@@ -319,65 +351,50 @@ export function Hero() {
 
         <motion.div
           className="wrap relative z-10 flex-1 pt-10 md:pt-12"
-          style={desk ? { opacity: textOpacity, y: textY } : undefined}
+          style={{ opacity: textOpacity, y: textY }}
         >
-          <div ref={headline} className="w-fit">
-            <RevealHeading
-              as="h1"
-              className="display-xl max-w-[9.5ch]"
-              lines={[
-                { text: "Keep your" },
-                { text: "flock in" },
-                { text: "view." },
-              ]}
-            />
-          </div>
-          <FadeUp delay={0.45}>
-            <p className="lede mt-6 max-w-[34ch] text-slate">
-              Your counts, cameras and flock records. One clear view of your
-              poultry farm.
-            </p>
-          </FadeUp>
-          <FadeUp
-            delay={0.6}
-            className="mt-8 flex flex-wrap items-center gap-6"
-          >
-            <Cta href="#demo">Request a demo</Cta>
-            <div className="flex items-center gap-3">
-              <span className="grid size-[42px] place-items-center bg-white">
-                <CubeIcon glyph="barn" size={30} />
-              </span>
-              <span className="text-[14px] leading-[1.25] tracking-[-0.01em]">
-                <span className="block font-medium">A new perspective</span>
-                <span className="text-slate">on poultry farming</span>
-              </span>
+          <div ref={copy}>
+            <div ref={headline} className="w-fit">
+              <RevealHeading
+                as="h1"
+                className="display-xl max-w-[9.5ch] lg:!text-[clamp(4.25rem,6.4vw,7.25rem)]"
+                lines={[
+                  { text: "Keep your" },
+                  { text: "flock in" },
+                  { text: "view." },
+                ]}
+              />
             </div>
-          </FadeUp>
-
-          {/* phones: the film as a muted loop */}
-          <div className="relative -mx-4 mt-10 aspect-video overflow-hidden sm:-mx-6 lg:hidden">
-            <video
-              poster="/video/hero-first.webp"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              aria-label="Film: the farm, the roof opening at area A2 and the camera view inside"
-              className="h-full w-full object-cover"
+            <FadeUp delay={0.45}>
+              <p className="lede mt-6 max-w-[34ch] text-slate">
+                Your counts, cameras and flock records. One clear view of your
+                poultry farm.
+              </p>
+            </FadeUp>
+            <FadeUp
+              delay={0.6}
+              className="mt-8 flex flex-wrap items-center gap-6"
             >
-              <source src="/video/hero-dive-720.webm" type='video/webm; codecs="vp9"' />
-              <source src="/video/hero-dive-720.mp4" type="video/mp4" />
-            </video>
+              <Cta href="#demo">Request a demo</Cta>
+              <div className="hidden items-center gap-3 sm:flex">
+                <span className="grid size-[42px] place-items-center bg-white">
+                  <CubeIcon glyph="barn" size={30} />
+                </span>
+                <span className="text-[14px] leading-[1.25] tracking-[-0.01em]">
+                  <span className="block font-medium">A new perspective</span>
+                  <span className="text-slate">on poultry farming</span>
+                </span>
+              </div>
+            </FadeUp>
           </div>
         </motion.div>
 
         {/* bottom tab strip */}
         <motion.div
           className="relative z-10"
-          style={desk ? { opacity: textOpacity } : undefined}
+          style={{ opacity: textOpacity }}
         >
-          <div className="wrap flex flex-col gap-3 pb-5 md:flex-row md:items-end md:justify-between">
+          <div ref={strip} className="wrap flex flex-col gap-3 pb-5 md:flex-row md:items-end md:justify-between">
             <div
               className="flex gap-5 overflow-x-auto md:gap-7"
               role="tablist"

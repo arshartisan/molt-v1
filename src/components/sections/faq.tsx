@@ -3,7 +3,7 @@
 import { Plus } from "lucide-react";
 import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion";
 import { Accordion, AccordionContent, AccordionItem } from "@/components/ui/accordion";
-import { ColumnGuides, Cta, CubeIcon, RevealHeading, SectionHead } from "@/components/primitives";
+import { Cta, CubeIcon, RevealHeading, SectionHead } from "@/components/primitives";
 import { FAQ } from "@/lib/content";
 
 export function Faq() {
@@ -13,7 +13,6 @@ export function Faq() {
         <SectionHead num="10" title="Good questions" aside={`${FAQ.length} answers`} />
         <div className="grid gap-12 pt-14 md:pt-20 lg:grid-cols-2 lg:gap-6">
           <div className="relative">
-            <ColumnGuides className="[&>span:nth-child(n+2)]:hidden" />
             <RevealHeading className="display-lg relative" lines={[{ text: "A little more" }, { text: "clarity.", muted: true }]} />
             <p className="lede mt-5 max-w-[34ch] text-slate">
               A few things you might be wondering before bringing your farm into view.

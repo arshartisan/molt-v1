@@ -46,11 +46,11 @@ export function Header() {
       )}
     >
       <div className="wrap flex h-[60px] items-stretch md:h-[68px]">
-        <div className={cn("flex items-center border-r pr-6 lg:pr-[26px]", divider)}>
+        <div className={cn("flex items-center border-r pr-4 sm:pr-6 lg:pr-[26px]", divider)}>
           <Logo tone={orange ? "ink" : "orange"} />
         </div>
-        <div className={cn("mono hidden items-center gap-2.5 pl-6 sm:flex", dark ? "text-white/70" : "text-ink/70")}>
-          <span className="text-[10px] tracking-[0.22em]">Backed by</span>
+        <div className={cn("mono flex items-center gap-2 pl-4 sm:gap-2.5 sm:pl-6", dark ? "text-white/70" : "text-ink/70")}>
+          <span className="text-[9px] tracking-[0.18em] sm:text-[10px] sm:tracking-[0.22em]">Backed by</span>
           <a
             href="https://focaldive.io"
             target="_blank"

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CubeIcon, RevealHeading, type Glyph } from "@/components/primitives";
+import { CubeIcon, MoltMark, RevealHeading, type Glyph } from "@/components/primitives";
 import { NAV } from "@/lib/content";
 
 const BELT: { label: string; glyph: Glyph }[] = [
@@ -17,12 +17,18 @@ export function Footer() {
   return (
     <footer data-theme="dark" className="relative overflow-hidden bg-ink text-white">
       <div className="wrap grid gap-12 pb-16 pt-20 md:grid-cols-2 md:pt-24">
-        <RevealHeading
-          as="p"
-          dark
-          className="display-md max-w-[16ch]"
-          lines={[{ text: "A clearer view of your farm." }, { text: "Camera monitoring and flock records, together.", muted: true }]}
-        />
+        <div>
+          <Link href="#top" aria-label="Molt home" className="mb-8 inline-flex items-center gap-3 md:mb-10">
+            <MoltMark className="size-[34px] md:size-[40px]" />
+            <span className="text-[28px] font-medium tracking-[-0.035em] md:text-[32px]">Molt</span>
+          </Link>
+          <RevealHeading
+            as="p"
+            dark
+            className="display-md max-w-[16ch]"
+            lines={[{ text: "A clearer view of your farm." }, { text: "Camera monitoring and flock records, together.", muted: true }]}
+          />
+        </div>
         <div className="grid grid-cols-2 gap-6">
           <div>
             <p className="mono mb-3 text-white/55">Molt</p>
